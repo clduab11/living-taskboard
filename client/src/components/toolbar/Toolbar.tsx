@@ -15,6 +15,7 @@ import {
   FaUsers,
   FaVideo,
   FaRobot,
+  FaQuestionCircle,
 } from 'react-icons/fa';
 import { useWhiteboardStore } from '../../store/useWhiteboardStore';
 import type { DrawingTool } from '../../types';
@@ -22,9 +23,10 @@ import './Toolbar.css';
 
 interface ToolbarProps {
   onToggleAI?: () => void;
+  onShowHelp?: () => void;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = ({ onToggleAI }) => {
+export const Toolbar: React.FC<ToolbarProps> = ({ onToggleAI, onShowHelp }) => {
   const {
     selectedTool,
     setSelectedTool,
@@ -157,6 +159,16 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onToggleAI }) => {
           title="Open AI Assistant"
         >
           <FaRobot /> AI Help
+        </button>
+      </div>
+
+      <div className="toolbar-section">
+        <button 
+          className="action-button help-button" 
+          onClick={onShowHelp}
+          title="Keyboard Shortcuts"
+        >
+          <FaQuestionCircle /> Help
         </button>
       </div>
     </div>

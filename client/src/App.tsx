@@ -3,16 +3,35 @@ import { WhiteboardCanvas } from './components/canvas/WhiteboardCanvas';
 import { Toolbar } from './components/toolbar/Toolbar';
 import { TemplateLibrary } from './components/templates/TemplateLibrary';
 import { AIAssistant } from './components/ai/AIAssistant';
+import { KeyboardShortcuts } from './components/help/KeyboardShortcuts';
 import { collaborationService } from './services/collaborationService';
 import { useWhiteboardStore } from './store/useWhiteboardStore';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import type { Template } from './types';
 import './App.css';
 
 function App() {
   const [showTemplates, setShowTemplates] = useState(false);
   const [showAI, setShowAI] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const [roomId, setRoomId] = useState<string>('');
   const [isJoined, setIsJoined] = useState(false);
+  
+  // Enable keyboard shortcuts
+  useKeyboardShortcuts();
+  
+  // Listen for ? key to show help
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setShowHelp(prev => !prev);
+      }
+    };
+    
+    window.addEventListener('keypress', handleKeyPress);
+    return () => window.removeEventListener('keypress', handleKeyPress);
+  }, []);
   
   const { 
     setCurrentUser, 
@@ -122,9 +141,13 @@ function App() {
 
   return (
     <div className={`app ${isDarkMode ? 'dark' : ''}`}>
-      <Toolbar onToggleAI={() => setShowAI(!showAI)} />
+      <Toolbar 
+        onToggleAI={() => setShowAI(!showAI)}
+        onShowHelp={() => setShowHelp(!showHelp)}
+      />
       <WhiteboardCanvas roomId={roomId} />
       {showAI && <AIAssistant onClose={() => setShowAI(false)} />}
+      {showHelp && <KeyboardShortcuts onClose={() => setShowHelp(false)} />}
     </div>
   );
 }
