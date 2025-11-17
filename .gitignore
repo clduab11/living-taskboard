@@ -49,3 +49,4 @@ dump.rdb
 
 # PostgreSQL
 *.sql
+!apps/backend/db/init.sql
