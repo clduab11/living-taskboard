@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   MousePointer2,
   Pen,
@@ -9,26 +9,40 @@ import {
   ZoomIn,
   ZoomOut,
   Grid,
-  Undo,
-  Redo,
   Download,
   Users,
   Sparkles,
+  Moon,
+  Sun,
+  Keyboard,
+  MessageSquare,
+  History,
 } from 'lucide-react';
 import { useCanvasStore } from '../store/canvasStore';
+import { useThemeStore } from '../store/themeStore';
 import { HexColorPicker } from 'react-colorful';
-import { useState } from 'react';
+import { ShortcutsModal } from './ShortcutsModal';
 
 interface ToolbarProps {
   onAIClick: () => void;
   onExportClick: () => void;
   onShareClick: () => void;
+  onCommentsClick?: () => void;
+  onHistoryClick?: () => void;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = ({ onAIClick, onExportClick, onShareClick }) => {
+export const Toolbar: React.FC<ToolbarProps> = ({
+  onAIClick,
+  onExportClick,
+  onShareClick,
+  onCommentsClick,
+  onHistoryClick
+}) => {
   const { activeTool, setActiveTool, zoom, setZoom, gridEnabled, toggleGrid } = useCanvasStore();
+  const { resolvedTheme, toggleTheme } = useThemeStore();
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [currentColor, setCurrentColor] = useState('#4ECDC4');
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   const tools = [
     { type: 'select' as const, icon: MousePointer2, label: 'Select' },
@@ -148,6 +162,24 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAIClick, onExportClick, onSh
 
       {/* Right side actions */}
       <div className="ml-auto flex items-center gap-2">
+        {onCommentsClick && (
+          <button
+            className="toolbar-button"
+            onClick={onCommentsClick}
+            title="Comments"
+          >
+            <MessageSquare size={20} />
+          </button>
+        )}
+        {onHistoryClick && (
+          <button
+            className="toolbar-button"
+            onClick={onHistoryClick}
+            title="Version History"
+          >
+            <History size={20} />
+          </button>
+        )}
         <button
           className="toolbar-button"
           onClick={onShareClick}
@@ -162,7 +194,28 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAIClick, onExportClick, onSh
         >
           <Download size={20} />
         </button>
+        <div className="border-l border-gray-300 pl-2 ml-2 flex items-center gap-1">
+          <button
+            className="toolbar-button"
+            onClick={toggleTheme}
+            title={resolvedTheme === 'dark' ? 'Light mode' : 'Dark mode'}
+          >
+            {resolvedTheme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button
+            className="toolbar-button"
+            onClick={() => setShowShortcuts(true)}
+            title="Keyboard shortcuts"
+          >
+            <Keyboard size={20} />
+          </button>
+        </div>
       </div>
+
+      <ShortcutsModal
+        isOpen={showShortcuts}
+        onClose={() => setShowShortcuts(false)}
+      />
     </div>
   );
 };

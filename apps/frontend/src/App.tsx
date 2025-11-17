@@ -5,7 +5,9 @@ import { Toaster } from 'react-hot-toast';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { BoardPage } from './pages/BoardPage';
+import { Billing } from './pages/Billing';
 import { useAuthStore } from './store/authStore';
+import { useThemeStore } from './store/themeStore';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +24,13 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 };
 
 function App() {
+  const { theme } = useThemeStore();
+
+  // Apply theme class to document
+  React.useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -40,6 +49,14 @@ function App() {
             element={
               <PrivateRoute>
                 <BoardPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/billing/*"
+            element={
+              <PrivateRoute>
+                <Billing />
               </PrivateRoute>
             }
           />

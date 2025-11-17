@@ -10,6 +10,9 @@ import { WebSocketServer } from './websocket/server';
 import authRoutes from './routes/auth.routes';
 import boardRoutes from './routes/board.routes';
 import aiRoutes from './routes/ai.routes';
+import billingRoutes from './routes/billing.routes';
+import versionRoutes from './routes/version.routes';
+import templateRoutes from './routes/template.routes';
 
 const app = express();
 const server = http.createServer(app);
@@ -42,6 +45,9 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/boards', boardRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/billing', billingRoutes);
+app.use('/api', versionRoutes);
+app.use('/api/templates', templateRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
