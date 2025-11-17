@@ -1,0 +1,60 @@
+.whiteboard-canvas-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.whiteboard-canvas-container.dark {
+  background: #1a1a1a;
+}
+
+canvas {
+  display: block;
+  cursor: crosshair;
+}
+
+canvas.select-tool {
+  cursor: default;
+}
+
+canvas.pan-tool {
+  cursor: grab;
+}
+
+canvas.pan-tool:active {
+  cursor: grabbing;
+}
+
+.user-cursor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 1000;
+  transition: all 0.05s ease-out;
+}
+
+.user-cursor::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid currentColor;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-top: 8px solid currentColor;
+}
+
+.cursor-name {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  padding: 2px 6px;
+  background: white;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
