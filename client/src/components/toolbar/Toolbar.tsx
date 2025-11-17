@@ -14,12 +14,17 @@ import {
   FaSun,
   FaUsers,
   FaVideo,
+  FaRobot,
 } from 'react-icons/fa';
 import { useWhiteboardStore } from '../../store/useWhiteboardStore';
 import type { DrawingTool } from '../../types';
 import './Toolbar.css';
 
-export const Toolbar: React.FC = () => {
+interface ToolbarProps {
+  onToggleAI?: () => void;
+}
+
+export const Toolbar: React.FC<ToolbarProps> = ({ onToggleAI }) => {
   const {
     selectedTool,
     setSelectedTool,
@@ -142,6 +147,17 @@ export const Toolbar: React.FC = () => {
             <FaVideo />
           </button>
         </div>
+      </div>
+
+      <div className="toolbar-section">
+        <div className="toolbar-title">AI Assistant</div>
+        <button 
+          className="action-button ai-button" 
+          onClick={onToggleAI}
+          title="Open AI Assistant"
+        >
+          <FaRobot /> AI Help
+        </button>
       </div>
     </div>
   );

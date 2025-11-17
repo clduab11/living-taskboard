@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { WhiteboardCanvas } from './components/canvas/WhiteboardCanvas';
 import { Toolbar } from './components/toolbar/Toolbar';
 import { TemplateLibrary } from './components/templates/TemplateLibrary';
+import { AIAssistant } from './components/ai/AIAssistant';
 import { collaborationService } from './services/collaborationService';
 import { useWhiteboardStore } from './store/useWhiteboardStore';
 import type { Template } from './types';
@@ -9,6 +10,7 @@ import './App.css';
 
 function App() {
   const [showTemplates, setShowTemplates] = useState(false);
+  const [showAI, setShowAI] = useState(false);
   const [roomId, setRoomId] = useState<string>('');
   const [isJoined, setIsJoined] = useState(false);
   
@@ -120,8 +122,9 @@ function App() {
 
   return (
     <div className={`app ${isDarkMode ? 'dark' : ''}`}>
-      <Toolbar />
+      <Toolbar onToggleAI={() => setShowAI(!showAI)} />
       <WhiteboardCanvas roomId={roomId} />
+      {showAI && <AIAssistant onClose={() => setShowAI(false)} />}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { Server as SocketIOServer } from 'socket.io';
 import dotenv from 'dotenv';
 import { setupYjsWebSocket } from './services/yjs-service';
 import { setupCollaborationHandlers } from './services/collaboration-service';
+import aiRoutes from './routes/ai-routes';
 
 dotenv.config();
 
@@ -42,6 +43,9 @@ app.get('/health', (req, res) => {
 app.get('/api', (req, res) => {
   res.json({ message: 'Living Taskboard API' });
 });
+
+// AI routes
+app.use('/api/ai', aiRoutes);
 
 const PORT = process.env.PORT || 3001;
 
