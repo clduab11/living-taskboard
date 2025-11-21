@@ -109,6 +109,17 @@ export class BoardService {
       throw new Error('Insufficient permissions');
     }
 
+    // Security: Validate all field names against allowlist before building SQL
+    // While values are parameterized, field names are dynamically constructed
+    // This explicit allowlist prevents SQL injection through field manipulation
+    const allowedFields = ['name', 'description', 'visibility', 'settings'];
+    const updateKeys = Object.keys(updates);
+    const invalidFields = updateKeys.filter(key => !allowedFields.includes(key));
+    
+    if (invalidFields.length > 0) {
+      throw new Error(`Invalid fields: ${invalidFields.join(', ')}`);
+    }
+
     const fields: string[] = [];
     const values: any[] = [];
     let paramCount = 1;
@@ -200,6 +211,12 @@ export class BoardService {
     const ownerRole = await this.getUserBoardRole(boardId, ownerId);
     if (ownerRole !== BoardRole.OWNER) {
       throw new Error('Only board owner can share');
+    }
+
+    // Validate email format before database query
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(targetEmail)) {
+      throw new Error('Invalid email format');
     }
 
     // Find target user
