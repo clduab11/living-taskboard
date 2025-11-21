@@ -24,12 +24,12 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 };
 
 function App() {
-  const { theme } = useThemeStore();
+  const { resolvedTheme } = useThemeStore();
 
   // Apply theme class to document
   React.useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, [theme]);
+    document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+  }, [resolvedTheme]);
 
   return (
     <QueryClientProvider client={queryClient}>
