@@ -95,7 +95,9 @@ export const Canvas: React.FC<CanvasProps> = ({ boardId }) => {
     canvas.on('mouse:down', (e) => {
       if (!e.pointer) return;
 
-      switch (activeTool.type) {
+      // Read current tool state instead of closed-over value
+      const currentTool = useCanvasStore.getState().activeTool;
+      switch (currentTool.type) {
         case 'rectangle':
           createRectangle(canvas, e.pointer);
           break;
