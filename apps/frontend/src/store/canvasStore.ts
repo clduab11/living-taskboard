@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { CanvasObject, ObjectType } from '@living-taskboard/shared';
+import { CanvasObject } from '@living-taskboard/shared';
 
 interface Tool {
   type: 'select' | 'pen' | 'rectangle' | 'circle' | 'text' | 'sticky' | 'eraser';

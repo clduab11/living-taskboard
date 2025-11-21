@@ -18,7 +18,7 @@ const app = express();
 const server = http.createServer(app);
 
 // Initialize WebSocket server
-const wsServer = new WebSocketServer(server);
+new WebSocketServer(server);
 
 // Middleware
 app.use(helmet());

@@ -7,8 +7,8 @@ COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
 COPY packages/shared/package*.json ./packages/shared/
 
-# Install dependencies
-RUN npm install
+# Install dependencies (requires package-lock.json)
+RUN npm ci --omit=dev
 
 # Copy source code
 COPY apps/backend ./apps/backend

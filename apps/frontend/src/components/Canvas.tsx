@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 import { useCanvasStore } from '../store/canvasStore';
 import { useCollaborationStore } from '../store/collaborationStore';
@@ -15,7 +15,6 @@ export const Canvas: React.FC<CanvasProps> = ({ boardId }) => {
   const fabricCanvasRef = useRef<fabric.Canvas | null>(null);
 
   const {
-    objects,
     activeTool,
     zoom,
     pan,

@@ -1,6 +1,10 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { config } from '../config/env';
-import { AIGenerationType, CanvasObject, ObjectType } from '@living-taskboard/shared';
+import { CanvasObject, ObjectType } from '@living-taskboard/shared';
+
+// Claude 3.5 Sonnet model - verify this model identifier is valid for your API key
+// Update to latest available model if needed (e.g., 'claude-3-5-sonnet-latest')
+const CLAUDE_MODEL = 'claude-3-5-sonnet-20241022';
 
 export class ClaudeService {
   private client: Anthropic;
@@ -13,7 +17,7 @@ export class ClaudeService {
 
   async generateMindMap(prompt: string): Promise<CanvasObject[]> {
     const message = await this.client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: CLAUDE_MODEL,
       max_tokens: 4096,
       messages: [{
         role: 'user',
@@ -50,7 +54,7 @@ Make the layout hierarchical and spread out. Position nodes in a radial pattern 
 
   async generateFlowchart(prompt: string): Promise<CanvasObject[]> {
     const message = await this.client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: CLAUDE_MODEL,
       max_tokens: 4096,
       messages: [{
         role: 'user',
@@ -91,7 +95,7 @@ Include decision diamonds, process rectangles, and flow arrows.`
     const description = this.describeObjects(objects);
 
     const message = await this.client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: CLAUDE_MODEL,
       max_tokens: 2048,
       messages: [{
         role: 'user',
@@ -122,7 +126,7 @@ Organize hierarchically, minimize crossings, and ensure good spacing.`
     const description = this.describeObjects(objects);
 
     const message = await this.client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: CLAUDE_MODEL,
       max_tokens: 2048,
       messages: [{
         role: 'user',
@@ -148,7 +152,7 @@ Generate professional meeting notes in markdown format with:
     const description = this.describeObjects(objects);
 
     const message = await this.client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: CLAUDE_MODEL,
       max_tokens: 1024,
       messages: [{
         role: 'user',
