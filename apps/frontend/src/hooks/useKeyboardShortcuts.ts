@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { useCanvasStore } from '../store/canvasStore';
 
 interface ShortcutConfig {
@@ -14,7 +14,8 @@ interface ShortcutConfig {
 export const useKeyboardShortcuts = (boardId?: string) => {
   const { setActiveTool, setZoom, zoom, toggleGrid, toggleSnapToGrid } = useCanvasStore();
 
-  const shortcuts: ShortcutConfig[] = [
+  // Memoize shortcuts array to prevent recreation on every render
+  const shortcuts: ShortcutConfig[] = useMemo(() => [
     // Tool selection
     { key: 'v', description: 'Select tool', category: 'Tools', action: () => setActiveTool({ type: 'select' }) },
     { key: 'p', description: 'Pen tool', category: 'Tools', action: () => setActiveTool({ type: 'pen', color: '#000000', strokeWidth: 2 }) },
@@ -37,7 +38,7 @@ export const useKeyboardShortcuts = (boardId?: string) => {
     { key: 'd', ctrl: true, description: 'Duplicate', category: 'Edit', action: () => console.log('Duplicate') },
     { key: 'Delete', description: 'Delete selected', category: 'Edit', action: () => console.log('Delete') },
     { key: 'Backspace', description: 'Delete selected', category: 'Edit', action: () => console.log('Delete') },
-  ];
+  ], [setActiveTool, setZoom, zoom, toggleGrid, toggleSnapToGrid]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     // Don't trigger shortcuts when typing in inputs
@@ -59,7 +60,7 @@ export const useKeyboardShortcuts = (boardId?: string) => {
       e.preventDefault();
       matchingShortcut.action();
     }
-  }, [shortcuts, zoom]);
+  }, [shortcuts]);
 
   useEffect(() => {
     if (!boardId) return;

@@ -58,3 +58,16 @@ export const config = {
     }
   }
 };
+
+// Production security validation
+if (config.nodeEnv === 'production') {
+  if (config.auth.jwtSecret === 'your-jwt-secret-change-in-production') {
+    throw new Error('JWT_SECRET must be set in production');
+  }
+  if (!config.stripe.secretKey) {
+    throw new Error('STRIPE_SECRET_KEY must be set in production');
+  }
+  if (!config.stripe.webhookSecret) {
+    throw new Error('STRIPE_WEBHOOK_SECRET must be set in production');
+  }
+}

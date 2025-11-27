@@ -58,7 +58,7 @@ CREATE TABLE canvas_objects (
     layer_id UUID,
     group_id UUID,
     data JSONB NOT NULL,
-    created_by UUID NOT NULL REFERENCES users(id),
+    created_by UUID REFERENCES users(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -109,7 +109,7 @@ CREATE TABLE templates (
     data JSONB NOT NULL,
     tags TEXT[],
     is_public BOOLEAN DEFAULT false,
-    created_by UUID NOT NULL REFERENCES users(id),
+    created_by UUID REFERENCES users(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -123,7 +123,7 @@ CREATE TABLE board_versions (
     version INTEGER NOT NULL,
     snapshot JSONB NOT NULL,
     description TEXT,
-    created_by UUID NOT NULL REFERENCES users(id),
+    created_by UUID REFERENCES users(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -145,7 +145,7 @@ CREATE INDEX idx_sessions_expires ON sessions(expires_at);
 CREATE TABLE file_uploads (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     board_id UUID NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id),
+    user_id UUID REFERENCES users(id) ON DELETE SET NULL,
     filename VARCHAR(255) NOT NULL,
     mime_type VARCHAR(100) NOT NULL,
     size INTEGER NOT NULL,

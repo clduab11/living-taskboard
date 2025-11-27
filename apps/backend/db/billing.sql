@@ -3,7 +3,7 @@
 -- Subscriptions table
 CREATE TABLE subscriptions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id),
     stripe_subscription_id VARCHAR(255) UNIQUE NOT NULL,
     stripe_customer_id VARCHAR(255) NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'active',
@@ -25,7 +25,7 @@ CREATE INDEX idx_subscriptions_customer ON subscriptions(stripe_customer_id);
 -- Invoices table
 CREATE TABLE invoices (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id),
     stripe_invoice_id VARCHAR(255) UNIQUE NOT NULL,
     stripe_subscription_id VARCHAR(255),
     amount_due INTEGER NOT NULL,
@@ -45,7 +45,7 @@ CREATE INDEX idx_invoices_stripe_id ON invoices(stripe_invoice_id);
 -- Usage records table
 CREATE TABLE usage_records (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id),
     record_type VARCHAR(50) NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 0,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -59,7 +59,7 @@ CREATE INDEX idx_usage_records_date ON usage_records(recorded_at);
 -- Payment methods table
 CREATE TABLE payment_methods (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id),
     stripe_payment_method_id VARCHAR(255) UNIQUE NOT NULL,
     type VARCHAR(50) NOT NULL,
     card_brand VARCHAR(50),

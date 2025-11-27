@@ -9,6 +9,12 @@ import redisClient from '../config/redis';
 
 export class WebSocketServer {
   private io: Server;
+  // NOTE: Current implementation uses in-memory Maps for state management.
+  // For multi-instance deployment (horizontal scaling), these should be migrated to Redis:
+  // - Use Redis Sets for boardRooms to track room membership across instances
+  // - Use Redis Hashes for userPresence to share presence state
+  // - Implement Redis pub/sub for cross-instance real-time event broadcasting
+  // This will enable load balancing and high availability in production environments.
   private boardRooms = new Map<string, Set<string>>();
   private userPresence = new Map<string, UserPresence>();
 
