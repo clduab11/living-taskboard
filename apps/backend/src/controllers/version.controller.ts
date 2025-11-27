@@ -67,6 +67,18 @@ export class VersionController {
       const { boardId } = req.params;
       const { from, to } = req.query;
 
+      // Validate query parameters
+      if (!from || !to) {
+        return res.status(400).json({ success: false, error: 'Both from and to version numbers are required' });
+      }
+
+      const fromVersion = parseInt(from as string);
+      const toVersion = parseInt(to as string);
+
+      if (isNaN(fromVersion) || isNaN(toVersion)) {
+        return res.status(400).json({ success: false, error: 'Invalid version numbers' });
+      }
+
       // Check board access
       const hasAccess = await boardService.checkBoardAccess(boardId, req.user!.id);
       if (!hasAccess) {
@@ -75,8 +87,8 @@ export class VersionController {
 
       const diff = await versionService.getDiff(
         boardId,
-        parseInt(from as string),
-        parseInt(to as string)
+        fromVersion,
+        toVersion
       );
 
       res.json({ success: true, data: diff });

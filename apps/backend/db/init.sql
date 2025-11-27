@@ -55,8 +55,8 @@ CREATE TABLE canvas_objects (
     z_index INTEGER DEFAULT 0,
     locked BOOLEAN DEFAULT false,
     visible BOOLEAN DEFAULT true,
-    layer_id UUID,
-    group_id UUID,
+    layer_id UUID REFERENCES layers(id) ON DELETE SET NULL,
+    group_id UUID, -- TODO: Add FK when groups table is implemented
     data JSONB NOT NULL,
     created_by UUID REFERENCES users(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

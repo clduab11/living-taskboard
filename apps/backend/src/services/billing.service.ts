@@ -75,7 +75,10 @@ export class BillingService {
       metadata: { userId: params.userId },
     });
 
-    return session.url || '';
+    if (!session.url) {
+      throw new Error('Checkout session URL not available');
+    }
+    return session.url;
   }
 
   // Create customer portal session
@@ -125,8 +128,8 @@ export class BillingService {
   // Cancel subscription
   async cancelSubscription(userId: string): Promise<void> {
     const result = await query(
-      'SELECT stripe_subscription_id FROM subscriptions WHERE user_id = $1 AND status = $2',
-      [userId, 'active']
+      'SELECT stripe_subscription_id FROM subscriptions WHERE user_id = $1 AND status IN (\'active\', \'trialing\')',
+      [userId]
     );
 
     if (result.rows.length === 0) {

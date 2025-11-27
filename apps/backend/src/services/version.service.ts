@@ -19,19 +19,12 @@ export class VersionService {
     objects: CanvasObject[],
     description?: string
   ): Promise<BoardVersion> {
-    // Get next version number
-    const versionResult = await query(
-      'SELECT COALESCE(MAX(version), 0) + 1 as next_version FROM board_versions WHERE board_id = $1',
-      [boardId]
-    );
-    const nextVersion = versionResult.rows[0].next_version;
-
-    // Insert new version
+    // Atomically compute and insert next version to prevent race conditions
     const result = await query(
       `INSERT INTO board_versions (board_id, version, snapshot, description, created_by)
-       VALUES ($1, $2, $3, $4, $5)
+       VALUES ($1, (SELECT COALESCE(MAX(version), 0) + 1 FROM board_versions WHERE board_id = $1), $2, $3, $4)
        RETURNING *`,
-      [boardId, nextVersion, JSON.stringify(objects), description, userId]
+      [boardId, JSON.stringify(objects), description, userId]
     );
 
     return this.mapVersion(result.rows[0]);

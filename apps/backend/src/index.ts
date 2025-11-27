@@ -13,6 +13,7 @@ import aiRoutes from './routes/ai.routes';
 import billingRoutes from './routes/billing.routes';
 import versionRoutes from './routes/version.routes';
 import templateRoutes from './routes/template.routes';
+import { billingController } from './controllers/billing.controller';
 
 const app = express();
 const server = http.createServer(app);
@@ -26,6 +27,10 @@ app.use(cors({
   origin: config.clientUrl,
   credentials: true
 }));
+
+// Stripe webhook must be registered BEFORE express.json() middleware
+// because it needs the raw body for signature verification
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
