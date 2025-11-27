@@ -30,11 +30,6 @@ app.use(cors({
 
 // Stripe webhook must be registered BEFORE express.json() middleware
 // because it needs the raw body for signature verification
-app.post(
-  '/api/billing/webhook',
-  express.raw({ type: 'application/json' }),
-  billingController.handleWebhook.bind(billingController)
-);
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
