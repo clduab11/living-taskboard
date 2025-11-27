@@ -128,8 +128,8 @@ export class BillingService {
   // Cancel subscription
   async cancelSubscription(userId: string): Promise<void> {
     const result = await query(
-      'SELECT stripe_subscription_id FROM subscriptions WHERE user_id = $1 AND status IN ($2, $3)',
-      [userId, 'active', 'trialing']
+      'SELECT stripe_subscription_id FROM subscriptions WHERE user_id = $1 AND status IN (\'active\', \'trialing\')',
+      [userId]
     );
 
     if (result.rows.length === 0) {
