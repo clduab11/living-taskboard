@@ -265,7 +265,8 @@ Suggest logical connections between them. Return JSON:
         fill: '#E8F4F8',
         stroke: '#4A90E2',
         strokeWidth: 2,
-        cornerRadius: 5
+        cornerRadius: 5,
+        text: node.text || '',
       },
       createdBy: '',
       createdAt: new Date(),
