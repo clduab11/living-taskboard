@@ -1,0 +1,45 @@
+{
+  "name": "@living-taskboard/frontend",
+  "version": "1.0.0",
+  "description": "Living Taskboard Frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.0",
+    "fabric": "^5.3.0",
+    "socket.io-client": "^4.7.2",
+    "yjs": "^13.6.10",
+    "y-socket.io": "^1.0.2",
+    "@tanstack/react-query": "^5.14.2",
+    "zustand": "^4.4.7",
+    "axios": "^1.6.2",
+    "lucide-react": "^0.294.0",
+    "clsx": "^2.0.0",
+    "tailwindcss": "^3.4.0",
+    "react-colorful": "^5.6.1",
+    "react-hot-toast": "^2.4.1",
+    "framer-motion": "^10.16.16",
+    "simple-peer": "^9.11.1",
+    "@stripe/stripe-js": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/simple-peer": "^9.11.8",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8",
+    "typescript": "^5.3.3",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0"
+  }
+}

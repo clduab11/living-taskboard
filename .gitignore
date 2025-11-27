@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+dist/
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# Uploads
+uploads/
+temp/
+
+# Redis
+dump.rdb
+
+# PostgreSQL
+*.sql
+!apps/backend/db/init.sql
+!apps/backend/db/billing.sql
